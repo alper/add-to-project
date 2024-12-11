@@ -44,14 +44,23 @@ export async function addToProject(): Promise<void> {
       .filter(l => l.length > 0) ?? []
   const labelOperator = core.getInput('label-operator').trim().toLocaleLowerCase()
 
+  const creators =
+    core
+      .getInput('creators')
+      .split(',')
+      .map(l => l.trim().toLowerCase())
+      .filter(l => l.length > 0) ?? []
+
   const octokit = github.getOctokit(ghToken)
 
   const issue = github.context.payload.issue ?? github.context.payload.pull_request
   const issueLabels: string[] = (issue?.labels ?? []).map((l: {name: string}) => l.name.toLowerCase())
   const issueOwnerName = github.context.payload.repository?.owner.login
+  const issueCreatorName = issue?.user.login as string | undefined
 
   core.debug(`Issue/PR owner: ${issueOwnerName}`)
   core.debug(`Issue/PR labels: ${issueLabels.join(', ')}`)
+  core.debug(`Issue creator ${issueCreatorName}`)
 
   // Ensure the issue matches our `labeled` filter based on the label-operator.
   if (labelOperator === 'and') {
@@ -67,6 +76,13 @@ export async function addToProject(): Promise<void> {
   } else {
     if (labeled.length > 0 && !issueLabels.some(l => labeled.includes(l))) {
       core.info(`Skipping issue ${issue?.number} because it does not have one of the labels: ${labeled.join(', ')}`)
+      return
+    }
+  }
+
+  if (creators.length > 0 && issueCreatorName) {
+    if (!creators.includes(issueCreatorName)) {
+      core.info(`Creators ${creators.join(',')} specified but do not match the issue ${issueCreatorName}`)
       return
     }
   }
