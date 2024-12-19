@@ -13,7 +13,9 @@ _See [action.yml](action.yml) for [metadata](https://docs.github.com/en/actions/
 
 _For more information about workflows, see [Using workflows](https://docs.github.com/en/actions/using-workflows)._
 
-Create a workflow that runs when Issues or Pull Requests are opened or labeled in your repository; this workflow also supports adding Issues to your project which are transferred into your repository. Optionally configure any filters you may want to add, such as only adding issues with certain labels. You may match labels with an `AND` or an `OR` operator, or exclude labels with a `NOT` operator.
+Create a workflow that runs when Issues or Pull Requests are opened or labeled in your repository; this workflow also supports adding Issues to your project which are transferred into your repository.
+
+Optionally configure any filters you may want to add, such as only adding issues with certain labels or issues created by certain users. You may match labels with an `AND` or an `OR` operator, or exclude labels with a `NOT` operator.
 
 Once you've configured your workflow, save it as a `.yml` file in your target Repository's `.github/workflows` directory.
 
@@ -116,6 +118,7 @@ jobs:
   _See [Creating a PAT and adding it to your repository](#creating-a-pat-and-adding-it-to-your-repository) for more details_
 - <a name="labeled">`labeled`</a> **(optional)** is a comma-separated list of labels used to filter applicable issues. When this key is provided, an issue must have _one_ of the labels in the list to be added to the project. Omitting this key means that any issue will be added.
 - <a name="labeled">`label-operator`</a> **(optional)** is the behavior of the labels filter, either `AND`, `OR` or `NOT` that controls if the issue should be matched with `all` `labeled` input or any of them, default is `OR`.
+- `creators` **(optional)** is a comma-separated list of Github usernames used to filter issues. When this value is there, an issue's creator must be one of the usernames here to to be added to the project. Omitting this key means that issues with any creator will be added.
 
 ## Supported Events
 
