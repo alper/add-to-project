@@ -17,6 +17,9 @@ inputs:
   label-operator:
     required: false
     description: The behavior of the labels filter, AND to match all labels, OR to match any label, NOT to exclude any listed label (default is OR)
+  creators:
+    required: false
+    description: A comma separated list of Github usernames to use as a filter for an issue to be added
 outputs:
   itemId:
     description: The ID of the item that was added to the project
