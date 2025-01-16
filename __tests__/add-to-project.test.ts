@@ -171,6 +171,116 @@ describe('addToProject', () => {
     expect(outputs.itemId).toEqual('project-item-id')
   })
 
+  test('adds matching issues with a creators filter', async () => {
+    mockGetInput({
+      'project-url': 'https://github.com/orgs/actions/projects/1',
+      'github-token': 'gh_token',
+      creators: 'octokit',
+    })
+
+    github.context.payload = {
+      issue: {
+        number: 1,
+        labels: [{ name: 'bug' }],
+        // eslint-disable-next-line camelcase
+        html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
+      },
+      repository: {
+        name: 'add-to-project',
+        owner: {
+          login: 'actions',
+        },
+      },
+    }
+
+    mockGraphQL(
+      {
+        test: /getProject/,
+        return: {
+          organization: {
+            projectV2: {
+              id: 'project-id',
+            },
+          },
+        },
+      },
+      {
+        test: /addProjectV2ItemById/,
+        return: {
+          addProjectV2ItemById: {
+            item: {
+              id: 'project-item-id',
+            },
+          },
+        },
+      },
+    )
+
+    await addToProject()
+
+    expect(outputs.itemId).toEqual('project-item-id')
+  })
+
+  test('does not add un-matching issues with a creators filter', async () => {
+    mockGetInput({
+      'project-url': 'https://github.com/orgs/actions/projects/1',
+      'github-token': 'gh_token',
+      creators: 'octokit',
+    })
+
+    github.context.payload = {
+      issue: {
+        number: 1,
+        labels: [{ name: 'bug' }],
+        // eslint-disable-next-line camelcase
+        html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octocat',
+        },
+      },
+      repository: {
+        name: 'add-to-project',
+        owner: {
+          login: 'actions',
+        },
+      },
+    }
+
+    mockGraphQL(
+      {
+        test: /getProject/,
+        return: {
+          organization: {
+            projectV2: {
+              id: 'project-id',
+            },
+          },
+        },
+      },
+      {
+        test: /addProjectV2ItemById/,
+        return: {
+          addProjectV2ItemById: {
+            item: {
+              id: 'project-item-id',
+            },
+          },
+        },
+      },
+    )
+
+    const infoSpy = jest.spyOn(core, 'info')
+    const gqlMock = mockGraphQL()
+
+    await addToProject()
+
+    expect(infoSpy).toHaveBeenCalledWith(`Skipping issue 1 because it does not match the creators: octokit`)
+    expect(gqlMock).not.toHaveBeenCalled()
+  })
+
   test('adds matching pull-requests with a label filter without label-operator', async () => {
     mockGetInput({
       'project-url': 'https://github.com/orgs/actions/projects/1',
