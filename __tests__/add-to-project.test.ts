@@ -862,7 +862,7 @@ function mockSetOutput(): Record<string, string> {
   return output
 }
 
-function mockGraphQL(...mocks: {test: RegExp; return: unknown}[]): jest.Mock {
+function mockGraphQL(...mocks: { test: RegExp; return: unknown }[]): jest.Mock {
   const mock = jest.fn().mockImplementation((query: string) => {
     const match = mocks.find(m => m.test.test(query))
 
