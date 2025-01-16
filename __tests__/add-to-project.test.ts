@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
-import {addToProject, mustGetOwnerTypeQuery} from '../src/add-to-project'
+import { addToProject, mustGetOwnerTypeQuery } from '../src/add-to-project'
 
 describe('addToProject', () => {
   let outputs: Record<string, string>
@@ -28,9 +28,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'bug'}],
+        labels: [{ name: 'bug' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -72,9 +75,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 2221,
-        labels: [{name: 'bug'}],
+        labels: [{ name: 'bug' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/octokit/octokit.js/issues/2221',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'octokit.js',
@@ -122,9 +128,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'bug'}],
+        labels: [{ name: 'bug' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -173,9 +182,12 @@ describe('addToProject', () => {
       // eslint-disable-next-line camelcase
       pull_request: {
         number: 1,
-        labels: [{name: 'bug'}],
+        labels: [{ name: 'bug' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/pull/136',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -226,6 +238,9 @@ describe('addToProject', () => {
         labels: [],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -253,9 +268,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'bug'}, {name: 'new'}],
+        labels: [{ name: 'bug' }, { name: 'new' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -304,9 +322,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'bug'}, {name: 'other'}],
+        labels: [{ name: 'bug' }, { name: 'other' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -334,9 +355,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'bug'}],
+        labels: [{ name: 'bug' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -364,9 +388,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'other'}],
+        labels: [{ name: 'other' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -414,9 +441,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'accessibility'}, {name: 'backend'}],
+        labels: [{ name: 'accessibility' }, { name: 'backend' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -470,9 +500,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'data'}, {name: 'frontend'}, {name: 'improvement'}],
+        labels: [{ name: 'data' }, { name: 'frontend' }, { name: 'improvement' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -501,10 +534,13 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'accessibility'}, {name: 'backend'}, {name: 'bug'}],
+        labels: [{ name: 'accessibility' }, { name: 'backend' }, { name: 'bug' }],
         'label-operator': 'AND',
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -560,6 +596,9 @@ describe('addToProject', () => {
         labels: [],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -582,9 +621,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'bug'}],
+        labels: [{ name: 'bug' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://notgithub.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -632,9 +674,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'bug'}],
+        labels: [{ name: 'bug' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -685,9 +730,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'bug'}],
+        labels: [{ name: 'bug' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/monalisa/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
@@ -739,9 +787,12 @@ describe('addToProject', () => {
     github.context.payload = {
       issue: {
         number: 1,
-        labels: [{name: 'foo'}, {name: 'BAR'}, {name: 'baz'}],
+        labels: [{ name: 'foo' }, { name: 'BAR' }, { name: 'baz' }],
         // eslint-disable-next-line camelcase
         html_url: 'https://github.com/actions/add-to-project/issues/74',
+        user: {
+          login: 'octokit',
+        },
       },
       repository: {
         name: 'add-to-project',
