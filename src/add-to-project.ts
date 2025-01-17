@@ -149,7 +149,7 @@ export async function addToProject(): Promise<void> {
       },
     )
 
-    core.info(JSON.stringify(addResp, null, 2))
+    core.debug(JSON.stringify(addResp, null, 2))
 
     core.setOutput('itemId', addResp.addProjectV2ItemById.item.id)
   } else {
