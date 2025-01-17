@@ -149,6 +149,8 @@ export async function addToProject(): Promise<void> {
       },
     )
 
+    core.info(JSON.stringify(addResp, null, 2))
+
     core.setOutput('itemId', addResp.addProjectV2ItemById.item.id)
   } else {
     core.info('Creating draft issue in project')
