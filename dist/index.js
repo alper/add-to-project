@@ -89,7 +89,7 @@ async function addToProject() {
     }
     if (creators.length > 0 && issueCreatorName) {
         if (!creators.includes(issueCreatorName)) {
-            core.info(`Skipping issue ${issue === null || issue === void 0 ? void 0 : issue.number} because it does not match the creators: ${creators.join(', ')}`);
+            core.info(`Skipping issue ${issue === null || issue === void 0 ? void 0 : issue.number} because ${issueCreatorName} does not match the creators: ${creators.join(', ')}`);
             return;
         }
     }

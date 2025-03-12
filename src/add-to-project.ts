@@ -82,7 +82,9 @@ export async function addToProject(): Promise<void> {
 
   if (creators.length > 0 && issueCreatorName) {
     if (!creators.includes(issueCreatorName)) {
-      core.info(`Skipping issue ${issue?.number} because it does not match the creators: ${creators.join(', ')}`)
+      core.info(
+        `Skipping issue ${issue?.number} because ${issueCreatorName} does not match the creators: ${creators.join(', ')}`,
+      )
       return
     }
   }
