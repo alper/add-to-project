@@ -58,9 +58,9 @@ export async function addToProject(): Promise<void> {
   const issueOwnerName = github.context.payload.repository?.owner.login
   const issueCreatorName = issue?.user.login as string | undefined
 
-  core.debug(`Issue/PR owner: ${issueOwnerName}`)
-  core.debug(`Issue/PR labels: ${issueLabels.join(', ')}`)
-  core.debug(`Issue creator ${issueCreatorName}`)
+  core.info(`Issue/PR owner: ${issueOwnerName}`)
+  core.info(`Issue/PR labels: ${issueLabels.join(', ')}`)
+  core.info(`Issue creator ${issueCreatorName}`)
 
   // Ensure the issue matches our `labeled` filter based on the label-operator.
   if (labelOperator === 'and') {
@@ -87,7 +87,7 @@ export async function addToProject(): Promise<void> {
     }
   }
 
-  core.debug(`Project URL: ${projectUrl}`)
+  core.info(`Project URL: ${projectUrl}`)
 
   const urlMatch = projectUrl.match(urlParse)
 
@@ -102,9 +102,9 @@ export async function addToProject(): Promise<void> {
   const ownerType = urlMatch.groups?.ownerType
   const ownerTypeQuery = mustGetOwnerTypeQuery(ownerType)
 
-  core.debug(`Project owner: ${projectOwnerName}`)
-  core.debug(`Project number: ${projectNumber}`)
-  core.debug(`Project owner type: ${ownerType}`)
+  core.info(`Project owner: ${projectOwnerName}`)
+  core.info(`Project number: ${projectNumber}`)
+  core.info(`Project owner type: ${ownerType}`)
 
   // First, use the GraphQL API to request the project's node ID.
   const idResp = await octokit.graphql<ProjectNodeIDResponse>(
@@ -124,8 +124,8 @@ export async function addToProject(): Promise<void> {
   const projectId = idResp[ownerTypeQuery]?.projectV2.id
   const contentId = issue?.node_id
 
-  core.debug(`Project node ID: ${projectId}`)
-  core.debug(`Content ID: ${contentId}`)
+  core.info(`Project node ID: ${projectId}`)
+  core.info(`Content ID: ${contentId}`)
 
   // Next, use the GraphQL API to add the issue to the project.
   // If the issue has the same owner as the project, we can directly
@@ -149,7 +149,7 @@ export async function addToProject(): Promise<void> {
       },
     )
 
-    core.debug(JSON.stringify(addResp, null, 2))
+    core.info(JSON.stringify(addResp, null, 2))
 
     core.setOutput('itemId', addResp.addProjectV2ItemById.item.id)
   } else {
