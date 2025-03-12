@@ -46,7 +46,7 @@ const core = __importStar(__nccwpck_require__(9999));
 const github = __importStar(__nccwpck_require__(2819));
 const urlParse = /\/(?<ownerType>orgs|users)\/(?<ownerName>[^/]+)\/projects\/(?<projectNumber>\d+)/;
 async function addToProject() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     const projectUrl = core.getInput('project-url', { required: true });
     const ghToken = core.getInput('github-token', { required: true });
     const labeled = (_a = core
@@ -64,7 +64,7 @@ async function addToProject() {
     const issue = (_c = github.context.payload.issue) !== null && _c !== void 0 ? _c : github.context.payload.pull_request;
     const issueLabels = ((_d = issue === null || issue === void 0 ? void 0 : issue.labels) !== null && _d !== void 0 ? _d : []).map((l) => l.name.toLowerCase());
     const issueOwnerName = (_e = github.context.payload.repository) === null || _e === void 0 ? void 0 : _e.owner.login;
-    const issueCreatorName = issue === null || issue === void 0 ? void 0 : issue.user.login;
+    const issueCreatorName = (_f = issue === null || issue === void 0 ? void 0 : issue.user.login) === null || _f === void 0 ? void 0 : _f.toLowerCase();
     core.info(`Issue/PR owner: ${issueOwnerName}`);
     core.info(`Issue/PR labels: ${issueLabels.join(', ')}`);
     core.info(`Issue creator ${issueCreatorName}`);
@@ -98,9 +98,9 @@ async function addToProject() {
     if (!urlMatch) {
         throw new Error(`Invalid project URL: ${projectUrl}. Project URL should match the format <GitHub server domain name>/<orgs-or-users>/<ownerName>/projects/<projectNumber>`);
     }
-    const projectOwnerName = (_f = urlMatch.groups) === null || _f === void 0 ? void 0 : _f.ownerName;
-    const projectNumber = parseInt((_h = (_g = urlMatch.groups) === null || _g === void 0 ? void 0 : _g.projectNumber) !== null && _h !== void 0 ? _h : '', 10);
-    const ownerType = (_j = urlMatch.groups) === null || _j === void 0 ? void 0 : _j.ownerType;
+    const projectOwnerName = (_g = urlMatch.groups) === null || _g === void 0 ? void 0 : _g.ownerName;
+    const projectNumber = parseInt((_j = (_h = urlMatch.groups) === null || _h === void 0 ? void 0 : _h.projectNumber) !== null && _j !== void 0 ? _j : '', 10);
+    const ownerType = (_k = urlMatch.groups) === null || _k === void 0 ? void 0 : _k.ownerType;
     const ownerTypeQuery = mustGetOwnerTypeQuery(ownerType);
     core.info(`Project owner: ${projectOwnerName}`);
     core.info(`Project number: ${projectNumber}`);
@@ -116,7 +116,7 @@ async function addToProject() {
         projectOwnerName,
         projectNumber,
     });
-    const projectId = (_k = idResp[ownerTypeQuery]) === null || _k === void 0 ? void 0 : _k.projectV2.id;
+    const projectId = (_l = idResp[ownerTypeQuery]) === null || _l === void 0 ? void 0 : _l.projectV2.id;
     const contentId = issue === null || issue === void 0 ? void 0 : issue.node_id;
     core.info(`Project node ID: ${projectId}`);
     core.info(`Content ID: ${contentId}`);
